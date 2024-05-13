@@ -8,7 +8,8 @@ const newProduct = (): ListingProduct => {
     category: faker.commerce.department(),
     price: faker.commerce.price(),
     seller: faker.person.fullName(),
-    description: faker.commerce.productDescription()
+    description: faker.commerce.productDescription(),
+    inventory: faker.number.int({ min: 0, max: 20 })
   };
 };
 
