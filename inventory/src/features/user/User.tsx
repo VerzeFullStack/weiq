@@ -8,6 +8,8 @@ import { selectAccessToken, selectClaims, setAccessToken, setClaims } from './us
 import MsalProp from "../../dataModels/MsalProp"
 import "./User.css"
 import { Link } from 'react-router-dom';
+import { appInsights } from '../../ApplicationInsightsService';
+import { SeverityLevel } from '@microsoft/applicationinsights-web';
 
 function LoginComponent () {
   const { instance, inProgress } = useMsal();
@@ -32,6 +34,7 @@ function LoginComponent () {
           .then((result) => {
             // Acquire token silent success
             dispatch(setAccessToken(result.accessToken));
+            appInsights.trackTrace({ message: 'Acquire access token silent succeed.', severityLevel: SeverityLevel.Information });
           });});
         }
     }, [accessToken, dispatch, instance]);
@@ -42,6 +45,7 @@ function LoginComponent () {
             ...loginRequest,
         })
         .then(result => {
+          appInsights.trackTrace({ message: 'User logged in.', severityLevel: SeverityLevel.Information });
             dispatch(setAccessToken(result.accessToken));
             dispatch(setClaims(result.idTokenClaims));
         })
