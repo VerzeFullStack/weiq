@@ -12,6 +12,8 @@ import { Provider } from 'react-redux'
 import ProductTable from './components/ProductTable.tsx'
 import NoMatch from './components/NoMatch.tsx';
 import UserInventory from './features/userInventory/UserInventory.tsx';
+import { AppInsightsContext } from '@microsoft/applicationinsights-react-js';
+import { reactPlugin } from './ApplicationInsightsService.tsx';
 
 export const msalInstance = new PublicClientApplication(msalConfig);
 
@@ -34,6 +36,7 @@ msalInstance.addEventCallback((event: EventMessage) => {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+    <AppInsightsContext.Provider value={reactPlugin}>
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
@@ -48,5 +51,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </Routes>
       </BrowserRouter>
     </Provider>
+    </AppInsightsContext.Provider>
+
   </React.StrictMode>,
 )
